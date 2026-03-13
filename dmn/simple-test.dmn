@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:camunda="http://camunda.org/schema/1.0/dmn"  id="SimpleTestDMN"
+             name="Simple Test DMN"
+             namespace="http://camunda.org/schema/1.0/dmn">
+
+  <decision id="simple-decision" name="Simple Decision" camunda:historyTimeToLive="P180D">  <decisionTable id="decisionTable_1">
+      <input id="Input_1" label="Input Number">
+        <inputExpression id="InputExpression_1" typeRef="integer">
+          <text>inputNumber</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Output Text" name="outputText" typeRef="string"/>
+      <rule id="Rule_1">
+        <description>If the input is 10, output "Test Successful"</description>
+        <inputEntry id="UnaryTests_1">
+          <text>10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1">
+          <text>"Test Successful"</text>
+        </outputEntry>
+      </rule>
+       <rule id="Rule_2">
+        <description>If the input is not 10, output "Other Input"</description>
+        <inputEntry id="UnaryTests_2">
+          <text>!= 10</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_2">
+          <text>"Other Input"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+
+</definitions>

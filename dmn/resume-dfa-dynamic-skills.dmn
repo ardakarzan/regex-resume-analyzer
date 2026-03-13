@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/"
+             xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/"
+             xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+             xmlns:modeler="http://camunda.org/schema/modeler/1.0"
+             xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0"
+             xmlns:camunda="http://camunda.org/schema/1.0/dmn"
+             id="Definitions_1dk8kaw"
+             name="DRD"
+             namespace="http://camunda.org/schema/1.0/dmn"
+             exporter="Camunda Modeler"
+             exporterVersion="5.34.0"
+             modeler:executionPlatform="Camunda Cloud"
+             modeler:executionPlatformVersion="7.21">
+
+  <decision id="resume-dfa-dynamic-skills"
+            name="resume-dfa-dynamic-skills"
+            camunda:historyTimeToLive="P180D">  <decisionTable id="DecisionTable_0zitha6">
+      <input id="Input_1" label="Current State" biodi:width="263">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>currentState</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0r5im64" label="Input Symbol" biodi:width="314">
+        <inputExpression id="LiteralExpression_1xu9w39" typeRef="string">
+          <text>inputSymbol</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Next State" name="nextState" typeRef="string" biodi:width="293" />
+      <rule id="DecisionRule_0ej73u1">
+        <description>Initial transition</description>
+        <inputEntry id="UnaryTests_1sp1iky">
+          <text>"START"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_11onb16">
+          <text>"PROCESS"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1a1th0h">
+          <text>"EVAL_MIN_EXP"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0wagflx">
+        <description>Fail minimum experience</description>
+        <inputEntry id="UnaryTests_0sxv19o">
+          <text>"EVAL_MIN_EXP"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0ymwpfa">
+          <text>"MIN_EXP_NOT_MET"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_10h715l">
+          <text>"FINAL_REJECT"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1x7xiso">
+        <description>Pass min exp -&gt; Check skills</description>
+        <inputEntry id="UnaryTests_0x6sjti">
+          <text>"EVAL_MIN_EXP"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_164qvhp">
+          <text>"MIN_EXP_MET"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0mckbil">
+          <text>"EVAL_SKILLS"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_10u983k">
+        <description>No skills required</description>
+        <inputEntry id="UnaryTests_1dckzlj">
+          <text>"EVAL_SKILLS"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04j4znl">
+          <text>"USER_SKILLS_NOT_REQUIRED"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_07ou93j">
+          <text>"EVAL_PREF_EXP"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0k3uovz">
+        <description>Skills none found</description>
+        <inputEntry id="UnaryTests_0sfv7mi">
+          <text>"EVAL_SKILLS" </text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1grovvz">
+          <text>"USER_SKILLS_NONE_FOUND"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1yorpy4">
+          <text>"FINAL_REJECT"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0anaoh5">
+        <description>Some skills found -&gt; Review</description>
+        <inputEntry id="UnaryTests_16eij0v">
+          <text>"EVAL_SKILLS"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1kclqix">
+          <text>"USER_SKILLS_PARTIAL_FOUND" </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1jwvkz1">
+          <text>"FINAL_REVIEW"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1554y8o">
+        <description>All skills found -&gt; Check pref</description>
+        <inputEntry id="UnaryTests_0c5l0g2">
+          <text>"EVAL_SKILLS"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0927be5">
+          <text>"USER_SKILLS_ALL_FOUND" </text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1bkgs2c">
+          <text>"EVAL_PREF_EXP"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ipvyy1">
+        <description>Pref Exp Not Applicable</description>
+        <inputEntry id="UnaryTests_1t2gszr">
+          <text>"EVAL_PREF_EXP"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0kiopnz">
+          <text>"PREF_EXP_NOT_APPLICABLE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_06d1u53">
+          <text>"FINAL_ACCEPT"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1go4spk">
+        <description>Pref Exp Met</description>
+        <inputEntry id="UnaryTests_177id3m">
+          <text>"EVAL_PREF_EXP"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1qnowa8">
+          <text>"PREF_EXP_MET"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1smykx9">
+          <text>"FINAL_ACCEPT"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02w610y">
+        <description>Pref Exp Not Met (Still Accept)</description>
+        <inputEntry id="UnaryTests_0cls0pd">
+          <text>"EVAL_PREF_EXP"</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1giv6i3">
+          <text>"PREF_EXP_NOT_MET"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pnmeae">
+          <text>"FINAL_ACCEPT"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_1">  <dmndi:DMNShape dmnElementRef="Decision_07zbuc8">
+        <dc:Bounds height="80" width="180" x="160" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>  </dmndi:DMNDI>
+</definitions>
